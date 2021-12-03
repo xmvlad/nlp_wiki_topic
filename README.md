@@ -12,7 +12,7 @@ This parameters can be changed in __dataset/build_dataset.sh__ :
 
 - TOP_N_TOPICS=65 - number of topics selected from list sorted by number of samples 
 - MIN_SIZE_BYTES=384 - minimum number of topic text size
-- DATASET_SAMPLE_SIZE=12000 - number of samples per topic in dataset, top topics was heavily unbalanced, we use undersampling to tackle this problem
+- DATASET_SAMPLE_SIZE=12000 - number of samples per topic in dataset, top topics was heavily unbalanced, so undersampling was used to tackle this problem
 - TRAIN_TEST_FRACTION=0.85 - train/test fraction split for final dataset
 
 # Models
