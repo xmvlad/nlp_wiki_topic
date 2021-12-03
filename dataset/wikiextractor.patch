@@ -1,0 +1,21 @@
+diff -Naru wikiextractor-origin/extract.py wikiextractor/extract.py
+--- wikiextractor-origin/extract.py	2021-10-14 15:29:00.000000000 +0300
++++ wikiextractor/extract.py	2021-11-08 17:04:17.016416988 +0300
+@@ -211,7 +211,7 @@
+                 title += '.'
+ 
+             if mark_headers:
+-                title = "## " + title
++                title = ("####%d" % lev) + " " + title
+ 
+             headers[lev] = title
+             # drop previous headers
+@@ -854,7 +854,7 @@
+         """
+         logging.debug("%s\t%s", self.id, self.title)
+         text = ''.join(self.page)
+-        text = self.clean_text(text, html_safe=html_safe)
++        text = self.clean_text(text, mark_headers=True, html_safe=html_safe)
+ 
+         if self.to_json:
+             json_data = {
