@@ -20,7 +20,5 @@ This parameters can be changed in __dataset/build_dataset.sh__ :
 | Model              | Accuracy | F1 score |
 |------------------- |----------|----------|
 | LogReg TF-IDF      |   0.626  |  0.621   |
-|--------------------|----------|----------|
 | BERT fine-tuned    |   0.778  |  0.777   |
-|--------------------|----------|----------|
 | RoBERTa fine-tuned |   0.784  |  0.784   |
