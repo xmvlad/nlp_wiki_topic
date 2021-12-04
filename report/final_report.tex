@@ -59,7 +59,7 @@ F1 score = \frac{2*Precision*Recall}{Precision+Recall} = \frac{2*TP}{2*TP+FP+FN}
 
 \subsection{Experiment Setup}
 
-Full dataset contains 600858 samples with 65 classes, it was stratified splitted into 0.85 train and 0.15 test part. For BERT and RoBERTa pretrained model with last classification level removed and reinitialized to handle 65 classes, then model was fine tuned with gradients propagated over full model. All models was trained for 4 epochs, then epoch with best result on test dataset was selected, all other hyperparameters was fixed initially and doesn't change. 
+Full dataset contains 600858 samples with 65 classes, it was stratified splitted into 0.85 train and 0.15 test part. For BERT and RoBERTa pretrained model used with last classification level removed and reinitialized to handle 65 classes, then model was fine tuned with gradients propagated over full model. All models was trained for 4 epochs, then epoch with best result on test dataset was selected, all other hyperparameters was fixed initially and doesn't change. 
 For optimization Adam optimizer was used with following parameters $\beta_{1}$=0.9 and $\beta_{2}$=0.999, learning rate=2e-5, effective batch size=24. 
 
 
