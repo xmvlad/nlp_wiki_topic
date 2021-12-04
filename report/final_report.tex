@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtext}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+
+\title{Wikipedia Articles Topic Dataset}
+\author{Vladislav Gusev}
+\date{Dec 2021}
+
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    This report contains details about building topic classification dataset from Wikipedia top level section names and related text. Also, few common NLP models was build to check they perfomance on this dataset.
+\end{abstract}
+
+
+\section{Introduction}
+In this work we take new approach to use Wikipedia data to produce automaticaly labeled dataset for topic classification task. It important because provide low human labor apporach to building topic classification datasets. 
+
+\subsection{Team}
+\textbf{Vladislav Gusev}
+
+\section{Related Work}
+\label{sec:related}
+Wikipedia a data source for the variety of data science models and tasks. For example it used to train BERT \cite{Devlin2018} and GPT-2 \cite{radford2019language}. Also, Wikipedia discussions used in toxic classification dataset \cite{thain2017wikipedia}.
+
+\section{Dataset}
+Wikipedia articles contain few levels of headers, level 1 - article name, level 2 - top level article section headers, level 3 - subsectons. Each section has some number of paragraphs related to section name. Most section headers have standardized names, like "Geography", "History", "Location", etc. 
+At this work, top level 2 section names was used as topic labels, and section text as topic content. As source of data, english Wikipedia xml dump was used, this dump produced regulary and can be downloader from \url{https://dumps.wikimedia.org/enwiki/}. Then WikiExtractor utility was used, to extract artilces text from dump,
+it was slightly patched to output specially marked level 2 section headers. Sections with topic name and it text content was extracted each to separate file, then it cleaned up to delete topics smaller then predefined size (384 bytes). Statistic was caclulated, how much samples we have for each section name,
+top N selected as topic names, at this work N=65, it gives approximately 8 000 samples for smallest topic, obviously N is number of classes when we use this dataset for classification task. Number of samples per topic heavily imbalanced, to tackle this problem undersampling was used, with number of samples per class approximately 12000,
+if class has fewer samples than it truncated to actual size. Totally 600858 samples was produced for final dataset. At last step, splitting into train and test part was done, with train fraction 0.85. All scripts and more detailed info how download and reproduce dataset located at GitHub repo \url{https://github.com/xmvlad/nlp_wiki_topic}
+
+\section{Models}
+To benchmark created dataset three common models was used. Logistic regression with Tf-Idf vectors as baseline, BERT \cite{Devlin2018} and RoBERTa \cite{yinhan2019roberta}. For BERT and RoBERTa pretrained models used with top classification layer was reinitialized to make fine tuning.
+
+\section{Experiments}
+
+\subsection{Metrics}
+
+Two widely known metrics was used accuracy and f1 score, they calculated on top 1 result, it means exact match for most probable predicted class.
+
+\[
+Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
+\]
+\[
+F1 score = \frac{2*Precision*Recall}{Precision+Recall} = \frac{2*TP}{2*TP+FP+FN}
+\]
+
+\subsection{Experiment Setup}
+
+Full dataset contains 600858 samples with 65 classes, it was stratified splitted into 0.85 train and 0.15 test part. For BERT and RoBERTa pretrained model with last classification level was removed and reinitialized to handle 65 classes, then model was fine tuned with gradients propagated over full model. All models was trained for 4 epochs, then epoch with best result on test dataset was selected, all other hyperparameters was fixed initially and doesn't change. 
+For optimization Adam optimizer was used with following parameters $\beta_{1}$=0.9 and $\beta_{2}$=0.999, learning rate=2e-5, effective batch size=24. 
+
+
+\subsection{Baselines}
+
+Logistic regression with TF-IDF embedding vectors was used as baseline. Vocabulary size was truncated to most common 5000 words. Experiments with increasing vocabulary size or using stemming for text tokens, doesn't change model perfomance sagnificantly or produce worse results due overfitting.
+
+\section{Results}
+
+\begin{table}[!tbh]
+    \centering
+    \begin{tabular}{|l|c|c|}
+\hline
+Model & Accuracy & F1 score \\
+%heading
+\hline
+LogReg TF-IDF & 0.626 & 0.621 \\
+BERT & 0.778 & 0.777 \\
+RoBERTa & 0.784 & 0.784 \\
+\hline
+    \end{tabular}
+    \caption{Model results}
+    \label{tab:results}
+\end{table}
+
+Achieved results Tab.~\ref{tab:results}. overly consistent with model perfomance on other datasets. TF-IDF logistic regression provide strong baseline because most topics have unique words that distinguish them from each other. Expectedly BERT model sagnificantly improve results over baseline, and RoBERTa improve
+few percent over BERT. Results consistent over two used metrics: accuracy and f1 score.
+
+\section{Conclusion}
+Novel approach to generate topic classification datasets from Wikipedia was present. Few decent models was fine-tuned on dataset to show they consistent perfomance.
+
+\bibliographystyle{apalike}
+\bibliography{lit}
+\end{document}
