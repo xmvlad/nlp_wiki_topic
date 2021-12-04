@@ -16,3 +16,11 @@ This parameters can be changed in __dataset/build_dataset.sh__ :
 - TRAIN_TEST_FRACTION=0.85 - train/test fraction split for final dataset
 
 # Models
+
+| Model              | Accuracy | F1 score |
+|------------------- |----------|----------|
+| LogReg TF-IDF      |   0.626  |  0.621   |
+|--------------------|----------|----------|
+| BERT fine-tuned    |   0.778  |  0.777   |
+|--------------------|----------|----------|
+| RoBERTa fine-tuned |   0.784  |  0.784   |
