@@ -29,7 +29,10 @@ In this work we take new approach to use Wikipedia data to produce automaticaly 
 
 \section{Related Work}
 \label{sec:related}
-Wikipedia a data source for the variety of data science models and tasks. For example it used to train BERT \cite{Devlin2018} and GPT-2 \cite{radford2019language}. Also, Wikipedia discussions used in toxic classification dataset \cite{thain2017wikipedia}.
+Wikipedia a data source for the variety of data science models and tasks. For example it used to train BERT \cite{Devlin2018} and RoBERTa \cite{yinhan2019roberta}. 
+BERT was pretrained on two tasks: language modelling (15\% of tokens were masked and BERT was trained to predict them from context) and next sentence prediction (BERT was trained to predict if a chosen next sentence was probable or not given the first sentence).
+Also, Wikipedia discussions used in toxic classification dataset \cite{thain2017wikipedia}.
+The Stanford Question Answering Dataset (SQuAD) \cite{rajpurkar2016squad}, a reading comprehension dataset consisting of 100000+ questions posed by crowdworkers on a set of Wikipedia articles, where the answer to each question is a segment of text from the corresponding reading passage.
 
 \section{Dataset}
 Wikipedia articles contain few levels of headers, level 1 - article name, level 2 - top level article section headers, level 3 - subsectons. Each section has some number of paragraphs related to section name. Most section headers have standardized names, like "Geography", "History", "Location", etc. 
@@ -56,7 +59,7 @@ F1 score = \frac{2*Precision*Recall}{Precision+Recall} = \frac{2*TP}{2*TP+FP+FN}
 
 \subsection{Experiment Setup}
 
-Full dataset contains 600858 samples with 65 classes, it was stratified splitted into 0.85 train and 0.15 test part. For BERT and RoBERTa pretrained model with last classification level was removed and reinitialized to handle 65 classes, then model was fine tuned with gradients propagated over full model. All models was trained for 4 epochs, then epoch with best result on test dataset was selected, all other hyperparameters was fixed initially and doesn't change. 
+Full dataset contains 600858 samples with 65 classes, it was stratified splitted into 0.85 train and 0.15 test part. For BERT and RoBERTa pretrained model with last classification level removed and reinitialized to handle 65 classes, then model was fine tuned with gradients propagated over full model. All models was trained for 4 epochs, then epoch with best result on test dataset was selected, all other hyperparameters was fixed initially and doesn't change. 
 For optimization Adam optimizer was used with following parameters $\beta_{1}$=0.9 and $\beta_{2}$=0.999, learning rate=2e-5, effective batch size=24. 
 
 
@@ -86,7 +89,7 @@ Achieved results Tab.~\ref{tab:results}. overly consistent with model perfomance
 few percent over BERT. Results consistent over two used metrics: accuracy and f1 score.
 
 \section{Conclusion}
-Novel approach to generate topic classification datasets from Wikipedia was present. Few decent models was fine-tuned on dataset to show they consistent perfomance.
+Novel approach to generate topic classification datasets from Wikipedia was present. Few decent models was fine-tuned to achieve SOTA results for this dataset.
 
 \bibliographystyle{apalike}
 \bibliography{lit}
