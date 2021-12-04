@@ -15,7 +15,7 @@ This parameters can be changed in __dataset/build_dataset.sh__ :
 - DATASET_SAMPLE_SIZE=12000 - number of samples per topic in dataset, top topics was heavily unbalanced, so undersampling was used to tackle this problem
 - TRAIN_TEST_FRACTION=0.85 - train/test fraction split for final dataset
 
-# Models
+# Model Results
 
 | Model              | Accuracy | F1 score |
 |------------------- |----------|----------|
